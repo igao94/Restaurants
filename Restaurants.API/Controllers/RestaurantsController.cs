@@ -7,6 +7,8 @@ using Restaurants.Application.Restaurants.Commands.UpdateRestaurant;
 using Restaurants.Application.Restaurants.DTO;
 using Restaurants.Application.Restaurants.Queries.GetAllRestaurants;
 using Restaurants.Application.Restaurants.Queries.GetRestaurantById;
+using Restaurants.Domain.Constants;
+using Restaurants.Infrastructure.Authorization;
 
 namespace Restaurants.API.Controllers;
 
@@ -16,6 +18,7 @@ namespace Restaurants.API.Controllers;
 public class RestaurantsController(IMediator mediator) : ControllerBase
 {  
     [HttpGet]
+    [Authorize(Policy = PolicyNames.CreatedAtLeast2Restaurants)]
     public async Task<ActionResult<IEnumerable<RestaurantDto>>> GetAll()
     {
         var restaurants = await mediator.Send(new GetAllRestaurantsQuery());
@@ -24,7 +27,8 @@ public class RestaurantsController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<RestaurantDto?>> Get(int id)
+    [Authorize(Policy = PolicyNames.HasNationality)]
+    public async Task<ActionResult<RestaurantDto?>> GetById(int id)
     {
         var restaurant = await mediator.Send(new GetRestaurantByIdQuery(id));
 
@@ -32,11 +36,12 @@ public class RestaurantsController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateRestaurantCommand command)
+    [Authorize(Roles = UserRoles.Owner)]
+    public async Task<IActionResult> CreateRestaurant(CreateRestaurantCommand command)
     {
         int id = await mediator.Send(command);
 
-        return CreatedAtAction(nameof(Get), new { id }, null);
+        return CreatedAtAction(nameof(GetById), new { id }, null);
     }
 
     [HttpDelete("{id}")]
