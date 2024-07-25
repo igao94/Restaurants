@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Restaurants.Application.Common;
 using Restaurants.Application.Restaurants.Commands.CreateRestaurant;
 using Restaurants.Application.Restaurants.Commands.DeleteRestaurant;
 using Restaurants.Application.Restaurants.Commands.UpdateRestaurant;
@@ -12,7 +13,7 @@ using Restaurants.Infrastructure.Authorization;
 
 namespace Restaurants.API.Controllers;
 
-[Route("api/[controller]")]
+[Route("api/restaurants")]
 [Authorize]
 [ApiController]
 public class RestaurantsController(IMediator mediator) : ControllerBase
@@ -20,8 +21,8 @@ public class RestaurantsController(IMediator mediator) : ControllerBase
     [HttpGet]
     //[Authorize(Policy = PolicyNames.CreatedAtLeast2Restaurants)]
     [AllowAnonymous]
-    public async Task<ActionResult<IEnumerable<RestaurantDto>>> GetAll(
-        [FromQuery] GetAllRestaurantsQuery query)
+    public async Task<ActionResult<PagedResult<RestaurantDto>>> GetAll
+        ([FromQuery] GetAllRestaurantsQuery query)
     {
         var restaurants = await mediator.Send(query);
 

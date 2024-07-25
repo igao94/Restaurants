@@ -34,6 +34,12 @@ public static class WebApplicationBuilderExtensions
                     }, []
                 }
             });
+
+            options.MapType<DateOnly>(() => new OpenApiSchema
+            {
+                Type = "string",
+                Format = "date"
+            });
         });
 
         builder.Services.AddScoped<ErrorHandlingMiddleware>();

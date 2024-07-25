@@ -9,8 +9,8 @@ using Restaurants.Domain.Constants;
 namespace Restaurants.Application.Restaurants.Commands.DeleteRestaurant;
 
 public class DeleteRestaurantCommandHandler(ILogger<DeleteRestaurantCommand> logger,
-    IRestaurantsRepository restaurantsRepository,
-    IRestaurantAuthorizationService restaurantAuthorizationService) : IRequestHandler<DeleteRestaurantCommand>
+    IRestaurantAuthorizationService restaurantAuthorizationService,
+    IRestaurantsRepository restaurantsRepository) : IRequestHandler<DeleteRestaurantCommand>
 {
     public async Task Handle(DeleteRestaurantCommand request, CancellationToken cancellationToken)
     {

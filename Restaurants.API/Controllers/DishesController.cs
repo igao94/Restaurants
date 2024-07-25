@@ -10,7 +10,7 @@ using Restaurants.Infrastructure.Authorization;
 
 namespace Restaurants.API.Controllers;
 
-[Route("api/restaurant/{restaurantId}/dishes")]
+[Route("api/restaurants/{restaurantId}/dishes")]    
 [ApiController]
 [Authorize]
 public class DishesController(IMediator mediator) : ControllerBase
@@ -28,8 +28,7 @@ public class DishesController(IMediator mediator) : ControllerBase
 
     [HttpGet]
     [Authorize(Policy = PolicyNames.AtLeast30)]
-    public async Task<ActionResult<IEnumerable<DishDto>>> GetAllForRestaurant(
-        [FromRoute] int restaurantId)
+    public async Task<ActionResult<IEnumerable<DishDto>>> GetAllForRestaurant([FromRoute] int restaurantId)
     {
         var dishes = await mediator.Send(new GetDishesForRestaurantQuery(restaurantId));
 
@@ -37,8 +36,8 @@ public class DishesController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet("{dishId}")]
-    public async Task<ActionResult<DishDto>> GetByIdForRestaurant(
-        [FromRoute] int restaurantId, [FromRoute] int dishId)
+    public async Task<ActionResult<DishDto>> GetByIdForRestaurant([FromRoute] int restaurantId, 
+        [FromRoute] int dishId)
     {
         var dish = await mediator.Send(new GetDishByIdForRestaurantQuery(restaurantId, dishId));
 
@@ -46,8 +45,7 @@ public class DishesController(IMediator mediator) : ControllerBase
     }
 
     [HttpDelete]
-    public async Task<IActionResult> DeleteDishesForRestaurant(
-        [FromRoute] int restaurantId)
+    public async Task<IActionResult> DeleteDishesForRestaurant([FromRoute] int restaurantId)
     {
         await mediator.Send(new DeleteDishesForRestaurantCommand(restaurantId));
 

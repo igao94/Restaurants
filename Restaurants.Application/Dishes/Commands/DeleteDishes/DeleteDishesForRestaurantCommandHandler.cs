@@ -8,10 +8,10 @@ using Restaurants.Domain.Repositories;
 
 namespace Restaurants.Application.Dishes.Commands.DeleteDishes;
 
-public class DeleteDishesForRestaurantCommandHandler(ILogger<DeleteDishesForRestaurantCommandHandler> logger,
-    IRestaurantsRepository restaurantsRepository,
-    IDishesRepository dishesRepository,
-    IRestaurantAuthorizationService restaurantAuthorizationService) : IRequestHandler<DeleteDishesForRestaurantCommand>
+public class DeleteDishesForRestaurantCommandHandler(IRestaurantsRepository restaurantsRepository,
+    ILogger<DeleteDishesForRestaurantCommandHandler> logger,
+    IRestaurantAuthorizationService restaurantAuthorizationService,
+    IDishesRepository dishesRepository) : IRequestHandler<DeleteDishesForRestaurantCommand>
 {
     public async Task Handle(DeleteDishesForRestaurantCommand request, CancellationToken cancellationToken)
     {

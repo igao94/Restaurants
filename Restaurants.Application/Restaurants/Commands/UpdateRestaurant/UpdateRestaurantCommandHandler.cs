@@ -11,8 +11,8 @@ namespace Restaurants.Application.Restaurants.Commands.UpdateRestaurant;
 
 public class UpdateRestaurantCommandHandler(ILogger<UpdateRestaurantCommandHandler> logger,
     IRestaurantsRepository restaurantsRepository,
-    IMapper mapper,
-    IRestaurantAuthorizationService restaurantAuthorizationService) : IRequestHandler<UpdateRestaurantCommand>
+    IRestaurantAuthorizationService restaurantAuthorizationService,
+    IMapper mapper) : IRequestHandler<UpdateRestaurantCommand>
 {
     public async Task Handle(UpdateRestaurantCommand request, CancellationToken cancellationToken)
     {

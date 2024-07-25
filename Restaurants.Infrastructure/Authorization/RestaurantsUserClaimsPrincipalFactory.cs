@@ -7,7 +7,7 @@ namespace Restaurants.Infrastructure.Authorization;
 
 public class RestaurantsUserClaimsPrincipalFactory(UserManager<User> userManager,
     RoleManager<IdentityRole> roleManager,
-    IOptions<IdentityOptions> options)
+    IOptions<IdentityOptions> options) 
     : UserClaimsPrincipalFactory<User, IdentityRole>(userManager, roleManager, options)
 {
     public override async Task<ClaimsPrincipal> CreateAsync(User user)

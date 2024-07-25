@@ -33,21 +33,23 @@ internal class RestaurantRepository(AppDbContext context) : IRestaurantsReposito
         var searchPhraseToLower = searchPhrase?.ToLower();
 
         var baseQuery = context.Restaurants
-            .Where(r => searchPhraseToLower == null || (r.Name.ToLower().Contains(searchPhraseToLower)
-                     || r.Description.ToLower().Contains(searchPhraseToLower)));
+            .Where(r => searchPhraseToLower == null 
+            || (r.Name.Contains(searchPhraseToLower, StringComparison.CurrentCultureIgnoreCase)
+            || r.Description.Contains(searchPhraseToLower, StringComparison.CurrentCultureIgnoreCase)));
 
         var totalCount = await baseQuery.CountAsync();
 
         if (sortBy != null)
         {
             var columnsSelector = new Dictionary<string, Expression<Func<Restaurant, object>>>
+            (StringComparer.OrdinalIgnoreCase)
             {
                 { nameof(Restaurant.Name), r => r.Name },
                 { nameof(Restaurant.Description), r => r.Description },
                 { nameof(Restaurant.Category), r => r.Category }
             };
 
-            var selectedColumn = columnsSelector[sortBy!];
+            var selectedColumn = columnsSelector[sortBy];
 
             baseQuery = sortDirection == SortDirection.Ascending
                 ? baseQuery.OrderBy(selectedColumn)

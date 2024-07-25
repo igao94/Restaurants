@@ -12,9 +12,7 @@ namespace Restaurants.Application.Dishes.Queries.GetDishesForRestaurant;
 
 public class GetDishesForRestaurantQueryHandler(ILogger<GetDishesForRestaurantQuery> logger,
     IRestaurantsRepository restaurantsRepository,
-    IMapper mapper,
-    IRestaurantAuthorizationService restaurantAuthorizationService) : IRequestHandler<GetDishesForRestaurantQuery,
-    IEnumerable<DishDto>>
+    IMapper mapper) : IRequestHandler<GetDishesForRestaurantQuery, IEnumerable<DishDto>>
 {
     public async Task<IEnumerable<DishDto>> Handle(GetDishesForRestaurantQuery request, CancellationToken cancellationToken)
     {

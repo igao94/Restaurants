@@ -13,22 +13,21 @@ namespace Restaurants.Application.Restaurants.Commands.CreateRestaurant;
 public class CreateRestaurantCommandHandler(IRestaurantsRepository restaurantsRepository,
     ILogger<CreateRestaurantCommandHandler> logger,
     IMapper mapper,
-    IUserContext userContext,
-    IRestaurantAuthorizationService restaurantAuthorizationService) : IRequestHandler<CreateRestaurantCommand, int>
+    IRestaurantAuthorizationService restaurantAuthorizationService,
+    IUserContext userContext) : IRequestHandler<CreateRestaurantCommand, int>
 {
     public async Task<int> Handle(CreateRestaurantCommand request, CancellationToken cancellationToken)
     {
         var currentUser = userContext.GetCurrentUser();
 
         logger.LogInformation("{UserEmail} [{UserId}] is creating a new restaurant {@Restaurant}.",
-            currentUser.Email, currentUser.Id, request);
-
+            currentUser!.Email, currentUser.Id, request);
         var restaurant = mapper.Map<Restaurant>(request);
+
+        restaurant.OwnerId = currentUser.Id;
 
         if (!restaurantAuthorizationService.Authorize(restaurant, ResourceOperation.Create))
             throw new ForbidException();
-
-        restaurant.OwnerId = currentUser.Id;
 
         return await restaurantsRepository.CreateAsync(restaurant);
     }

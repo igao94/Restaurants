@@ -12,8 +12,8 @@ namespace Restaurants.Application.Dishes.Commands.CreateDish;
 public class CreateDishCommandHandler(ILogger<CreateDishCommand> logger,
     IRestaurantsRepository restaurantsRepository,
     IDishesRepository dishesRepository,
-    IMapper mapper,
-    IRestaurantAuthorizationService restaurantAuthorizationService) : IRequestHandler<CreateDishCommand, int>
+    IRestaurantAuthorizationService restaurantAuthorizationService,
+    IMapper mapper) : IRequestHandler<CreateDishCommand, int>
 {
     public async Task<int> Handle(CreateDishCommand request, CancellationToken cancellationToken)
     {

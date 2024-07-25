@@ -6,19 +6,19 @@ using Microsoft.Extensions.DependencyInjection;
 using Restaurants.Domain.Entites;
 using Restaurants.Domain.Repositories;
 using Restaurants.Infrastructure.Authorization;
-using Restaurants.Infrastructure.Authorization.Requirements;
 using Restaurants.Infrastructure.Authorization.Services;
 using Restaurants.Infrastructure.Data;
 using Restaurants.Infrastructure.Repositories;
 using Restaurants.Infrastructure.Seeders;
 using Restaurants.Domain.Interfaces;
+using Restaurants.Infrastructure.Authorization.Requirements.CreatedMultipleRestaurants;
+using Restaurants.Infrastructure.Authorization.Requirements.MinimumAge;
 
 namespace Restaurants.Infrastructure.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static void AddInfrastructure(this IServiceCollection services,
-        IConfiguration configuration)
+    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<AppDbContext>(options =>
         {
